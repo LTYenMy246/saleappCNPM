@@ -1,46 +1,13 @@
+from app.models import Category, Product
+from app import app
 def load_categories():
-    return [{
-        "id": 1,
-        "name": "Mobile"
-    },{
-        "id": 2,
-        "name": "Tablet"
-    }]
+    return Category.query.all()
 
-def load_products():
-    return [{
-        "id": 1,
-        "name": "iPhone 7 Plus",
-        "description": "Apple, 32GB, RAM: 3GB, iOS13",
-        "price": 17000000,
-        "image": "https://res.cloudinary.com/dxxwcby8l/image/upload/v1647056401/ipmsmnxjydrhpo21xrd8.jpg",
-        "category_id": 1
-    }, {
-        "id": 2,
-        "name": "iPad Pro 2020",
-        "description": "Apple, 128GB, RAM: 6GB",
-        "price": 37000000,
-        "image": "https://res.cloudinary.com/dxxwcby8l/image/upload/v1646729533/zuur9gzztcekmyfenkfr.jpg",
-        "category_id": 2
-    },{
-        "id": 2,
-        "name": "iPad Pro 2020",
-        "description": "Apple, 128GB, RAM: 6GB",
-        "price": 37000000,
-        "image": "https://res.cloudinary.com/dxxwcby8l/image/upload/v1646729533/zuur9gzztcekmyfenkfr.jpg",
-        "category_id": 2
-    },{
-        "id": 2,
-        "name": "iPad Pro 2020",
-        "description": "Apple, 128GB, RAM: 6GB",
-        "price": 37000000,
-        "image": "https://res.cloudinary.com/dxxwcby8l/image/upload/v1646729533/zuur9gzztcekmyfenkfr.jpg",
-        "category_id": 2
-    },{
-        "id": 2,
-        "name": "iPad Pro 2020",
-        "description": "Apple, 128GB, RAM: 6GB",
-        "price": 37000000,
-        "image": "https://res.cloudinary.com/dxxwcby8l/image/upload/v1646729533/zuur9gzztcekmyfenkfr.jpg",
-        "category_id": 2
-    }]
+def load_products(page=1):
+    prod = Product.query
+    page_size = app.config["PAGE_SIZE"]
+    start = (page - 1) * page_size
+    prod = prod.slice(start, start + page_size)
+    return prod.all()
+def count_products():
+    return Product.query.count()
